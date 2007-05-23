@@ -1,24 +1,18 @@
-%define	name		ode
-%define	version		0.7
-%define	rel		1
-%define	release		%mkrel %{rel}
-%define	lib_name_orig	lib%{name}
-%define lib_major	0
-%define lib_name	%mklibname %{name} %{lib_major}
-%define	lib_name_devel	%mklibname %{name} %{lib_major} -d
+%define major 0
+%define libname	%mklibname %{name} %{major}
 
-
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
+Summary:	The Open Dynamics Engine
+Name:		ode
+Version:	0.8
+Release:	%mkrel 1
 Epoch:		1
-Source0:	%{name}-src-%{version}.tar.bz2
-Patch0:		ode-0.7-library-fixes.patch
 License:	BSD LGPL
 Group:		System/Libraries
-URL:		http://opende.sourceforge.net/
-Summary:	The Open Dynamics Engine
-BuildRequires:	X11-devel MesaGLU-devel
+URL:		http://ode.org
+Source0:	http://downloads.sourceforge.net/opende/%{name}-src-%{version}.tar.bz2
+Patch0:		ode-0.8-library-fixes.patch
+BuildRequires:	X11-devel
+BuildRequires:	libmesaglu-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
@@ -30,23 +24,23 @@ and Unix platforms.
 ODE is useful for simulating things like vehicles, objects in virtual
 reality environments, and virtual creatures. 
 
-%package -n	%{lib_name}
+%package -n	%{libname}
 Summary:	Physics simulation library
 Group:		System/Libraries
 Provides:	%{name} = %{version}-%{release}
 
-%description -n	%{lib_name}
+%description -n	%{libname}
 This package contains the library needed to run programs dynamically
 linked with ODE.
 
-%package -n	%{lib_name_devel}
+%package -n	%{libname}-devel
 Summary:	Headers and libraries to develop ODE applications
 Group:		Development/C
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
-Requires:	%{lib_name} = %{epoch}:%{version}
+Requires:	%{libname} = %{epoch}:%{version}
 
-%description -n	%{lib_name_devel}
+%description -n	%{libname}-devel
 The Open Dynamics Engine (ODE) is a free software library for the
 simulation of Rigid Body Dynamics. It is has been primarily written
 by Russell Smith. ODE builds under a variety of different Windows
@@ -57,39 +51,43 @@ reality environments, and virtual creatures.
 
 %prep
 %setup -q
-%patch0 -p1 -b .library_fixes
+%patch0 -p0 -b .library_fixes
 
 %build
 ./autogen.sh
-%configure	--enable-release \
-		--enable-soname
+%configure2_5x \
+	--enable-soname \
+	--enable-release \
+	--with-trimesh=opcode \
+	--enable-double-precision
+
 %make
 
 %install
 rm -rf %{buildroot}
 
-%makeinstall
+%makeinstall_std
 
 %multiarch_binaries %{buildroot}%{_bindir}/ode-config
 %multiarch_includes %{buildroot}%{_includedir}/ode/config.h
 
-%post -n %{lib_name} -p /sbin/ldconfig
-%postun -n %{lib_name} -p /sbin/ldconfig
+%post -n %{libname} -p /sbin/ldconfig
+%postun -n %{libname} -p /sbin/ldconfig
 
 %clean
 rm -rf %{buildroot}
 
-%files -n %{lib_name}
-%defattr(-,root,root,0755)
-%{_libdir}/%{lib_name_orig}.so.%{lib_major}*
+%files -n %{libname}
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libode.so.%{major}*
 
-%files -n %{lib_name_devel}
-%defattr(-,root,root)
+%files -n %{libname}-devel
+%defattr(644,root,root,755)
 %doc CHANGELOG.txt LICENSE-BSD.TXT README.txt
-%{_bindir}/%{name}-config
-%multiarch %{multiarch_bindir}/%{name}-config
-%{_includedir}/*
-%{_libdir}/lib*.a
-%{_libdir}/lib*.so
-
-
+%dir %{_includedir}/ode
+%attr(755,root,root) %{_bindir}/%{name}-config
+%attr(755,root,root) %multiarch %{multiarch_bindir}/%{name}-config
+%multiarch %{multiarch_includedir}/ode/config.h
+%{_includedir}/ode/*.h
+%{_libdir}/libode.a
+%{_libdir}/libode.so
