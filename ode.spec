@@ -58,8 +58,7 @@ reality environments, and virtual creatures.
 %configure2_5x \
 	--enable-soname \
 	--enable-release \
-	--with-trimesh=opcode \
-	--enable-double-precision
+	--with-trimesh=opcode
 
 %make
 
