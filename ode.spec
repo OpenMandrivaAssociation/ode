@@ -1,10 +1,11 @@
 %define major 0
 %define libname	%mklibname %{name} %{major}
+%define develname %mklibname -d %name
 
 Summary:	The Open Dynamics Engine
 Name:		ode
 Version:	0.8
-Release:	%mkrel 1
+Release:	%mkrel 2
 Epoch:		1
 License:	BSD LGPL
 Group:		System/Libraries
@@ -33,14 +34,15 @@ Provides:	%{name} = %{version}-%{release}
 This package contains the library needed to run programs dynamically
 linked with ODE.
 
-%package -n	%{libname}-devel
+%package -n	%{develname}
 Summary:	Headers and libraries to develop ODE applications
 Group:		Development/C
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
+Obsoletes:	%libname-devel
 Requires:	%{libname} = %{epoch}:%{version}
 
-%description -n	%{libname}-devel
+%description -n	%{develname}
 The Open Dynamics Engine (ODE) is a free software library for the
 simulation of Rigid Body Dynamics. It is has been primarily written
 by Russell Smith. ODE builds under a variety of different Windows
@@ -80,7 +82,7 @@ rm -rf %{buildroot}
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libode.so.%{major}*
 
-%files -n %{libname}-devel
+%files -n %{develname}
 %defattr(644,root,root,755)
 %doc CHANGELOG.txt LICENSE-BSD.TXT README.txt
 %dir %{_includedir}/ode
