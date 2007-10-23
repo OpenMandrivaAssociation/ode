@@ -4,13 +4,13 @@
 
 Summary:	The Open Dynamics Engine
 Name:		ode
-Version:	0.8
-Release:	%mkrel 2
+Version:	0.9
+Release:	%mkrel 1
 Epoch:		1
 License:	BSD LGPL
 Group:		System/Libraries
-URL:		http://ode.org
-Source0:	http://downloads.sourceforge.net/opende/%{name}-src-%{version}.tar.bz2
+URL:		http://www.ode.org
+Source0:	http://downloads.sourceforge.net/opende/%{name}-src-%{version}.zip
 Patch0:		ode-0.8-library-fixes.patch
 BuildRequires:	X11-devel
 BuildRequires:	libmesaglu-devel
