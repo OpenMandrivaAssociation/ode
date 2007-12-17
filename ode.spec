@@ -14,7 +14,6 @@ Source0:	http://downloads.sourceforge.net/opende/%{name}-src-%{version}.zip
 Patch0:		ode-0.8-library-fixes.patch
 BuildRequires:	X11-devel
 BuildRequires:	libmesaglu-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 The Open Dynamics Engine (ODE) is a free software library for the
