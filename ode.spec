@@ -72,8 +72,12 @@ rm -rf %{buildroot}
 %multiarch_binaries %{buildroot}%{_bindir}/ode-config
 %multiarch_includes %{buildroot}%{_includedir}/ode/config.h
 
+%if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun -n %{libname} -p /sbin/ldconfig
+%endif
 
 %clean
 rm -rf %{buildroot}
