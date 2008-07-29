@@ -5,7 +5,7 @@
 Summary:	The Open Dynamics Engine
 Name:		ode
 Version:	0.9
-Release:	%mkrel 1
+Release:	%mkrel 3
 Epoch:		1
 License:	BSD LGPL
 Group:		System/Libraries
