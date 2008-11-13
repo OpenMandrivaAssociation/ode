@@ -1,17 +1,16 @@
 %define major 0
 %define libname	%mklibname %{name} %{major}
-%define develname %mklibname -d %name
+%define develname %mklibname %name -d
 
 Summary:	The Open Dynamics Engine
 Name:		ode
-Version:	0.9
-Release:	%mkrel 3
+Version:	0.10.1
+Release:	%mkrel 1
 Epoch:		1
 License:	BSD LGPL
 Group:		System/Libraries
 URL:		http://www.ode.org
-Source0:	http://downloads.sourceforge.net/opende/%{name}-src-%{version}.zip
-Patch0:		ode-0.8-library-fixes.patch
+Source0:	http://downloads.sourceforge.net/opende/%{name}-%{version}.tar.lzma
 BuildRequires:	X11-devel
 BuildRequires:	libmesaglu-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -39,8 +38,8 @@ Summary:	Headers and libraries to develop ODE applications
 Group:		Development/C
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
-Obsoletes:	%libname-devel
-Requires:	%{libname} = %{epoch}:%{version}
+Obsoletes:	%{mklibname %name 0}-devel < 0.10.1
+Requires:	%{libname} = %{epoch}:%{version}-%{release}
 
 %description -n	%{develname}
 The Open Dynamics Engine (ODE) is a free software library for the
@@ -53,14 +52,13 @@ reality environments, and virtual creatures.
 
 %prep
 %setup -q
-%patch0 -p0 -b .library_fixes
 
 %build
-./autogen.sh
 %configure2_5x \
-	--enable-soname \
-	--enable-release \
-	--with-trimesh=opcode
+	--with-trimesh=opcode \
+	--with-drawstuff=X11 \
+	--enable-new-trimesh \
+	--enable-demos
 
 %make
 
@@ -83,15 +81,15 @@ rm -rf %{buildroot}
 rm -rf %{buildroot}
 
 %files -n %{libname}
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libode.so.%{major}*
+%defattr(-,root,root)
+%{_libdir}/libode.so.%{major}*
 
 %files -n %{develname}
-%defattr(644,root,root,755)
+%defattr(-,root,root)
 %doc CHANGELOG.txt LICENSE-BSD.TXT README.txt
 %dir %{_includedir}/ode
-%attr(755,root,root) %{_bindir}/%{name}-config
-%attr(755,root,root) %multiarch %{multiarch_bindir}/%{name}-config
+%{_bindir}/%{name}-config
+%multiarch %{multiarch_bindir}/%{name}-config
 %multiarch %{multiarch_includedir}/ode/config.h
 %{_includedir}/ode/*.h
 %{_libdir}/libode.a
