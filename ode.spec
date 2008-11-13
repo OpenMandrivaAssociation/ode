@@ -1,4 +1,4 @@
-%define major 0
+%define major 1
 %define libname	%mklibname %{name} %{major}
 %define develname %mklibname %name -d
 
@@ -7,7 +7,7 @@ Name:		ode
 Version:	0.10.1
 Release:	%mkrel 1
 Epoch:		1
-License:	BSD LGPL
+License:	LGPLv2+
 Group:		System/Libraries
 URL:		http://www.ode.org
 Source0:	http://downloads.sourceforge.net/opende/%{name}-%{version}.tar.lzma
@@ -28,6 +28,7 @@ reality environments, and virtual creatures.
 Summary:	Physics simulation library
 Group:		System/Libraries
 Provides:	%{name} = %{version}-%{release}
+Obsoletes:	%{mklibname %{name} 0} < 0.10.1
 
 %description -n	%{libname}
 This package contains the library needed to run programs dynamically
@@ -38,7 +39,8 @@ Summary:	Headers and libraries to develop ODE applications
 Group:		Development/C
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
-Obsoletes:	%{mklibname %name 0}-devel < 0.10.1
+Provides:	%{mklibname %{name} 0 -d}
+Obsoletes:	%{mklibname %{name} 0 -d} < 0.10.1
 Requires:	%{libname} = %{epoch}:%{version}-%{release}
 
 %description -n	%{develname}
@@ -58,7 +60,8 @@ reality environments, and virtual creatures.
 	--with-trimesh=opcode \
 	--with-drawstuff=X11 \
 	--enable-new-trimesh \
-	--enable-demos
+	--enable-demos \
+	--enable-shared
 
 %make
 
@@ -68,7 +71,6 @@ rm -rf %{buildroot}
 %makeinstall_std
 
 %multiarch_binaries %{buildroot}%{_bindir}/ode-config
-%multiarch_includes %{buildroot}%{_includedir}/ode/config.h
 
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
@@ -86,11 +88,10 @@ rm -rf %{buildroot}
 
 %files -n %{develname}
 %defattr(-,root,root)
-%doc CHANGELOG.txt LICENSE-BSD.TXT README.txt
+%doc CHANGELOG.txt README.txt
 %dir %{_includedir}/ode
 %{_bindir}/%{name}-config
 %multiarch %{multiarch_bindir}/%{name}-config
-%multiarch %{multiarch_includedir}/ode/config.h
 %{_includedir}/ode/*.h
-%{_libdir}/libode.a
+%{_libdir}/libode.*a
 %{_libdir}/libode.so
