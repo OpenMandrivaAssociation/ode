@@ -4,13 +4,13 @@
 
 Summary:	The Open Dynamics Engine
 Name:		ode
-Version:	0.10.1
+Version:	0.11
 Release:	%mkrel 1
 Epoch:		1
 License:	LGPLv2+
 Group:		System/Libraries
 URL:		http://www.ode.org
-Source0:	http://downloads.sourceforge.net/opende/%{name}-%{version}.tar.lzma
+Source0:	http://downloads.sourceforge.net/opende/%{name}-%{version}.tar.bz2
 BuildRequires:	X11-devel
 BuildRequires:	libmesaglu-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -70,7 +70,7 @@ rm -rf %{buildroot}
 
 %makeinstall_std
 
-%multiarch_binaries %{buildroot}%{_bindir}/ode-config
+%multiarch_binaries %{buildroot}%{_bindir}/%{name}-config
 
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
@@ -89,9 +89,11 @@ rm -rf %{buildroot}
 %files -n %{develname}
 %defattr(-,root,root)
 %doc CHANGELOG.txt README.txt
-%dir %{_includedir}/ode
+%dir %{_includedir}/%{name}
 %{_bindir}/%{name}-config
 %multiarch %{multiarch_bindir}/%{name}-config
-%{_includedir}/ode/*.h
-%{_libdir}/libode.*a
-%{_libdir}/libode.so
+%{_includedir}/%{name}/*.h
+%{_libdir}/lib%{name}.*a
+%{_libdir}/lib%{name}.so
+%{_libdir}/pkgconfig/%{name}.pc
+
