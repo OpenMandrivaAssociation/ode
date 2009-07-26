@@ -4,7 +4,7 @@
 
 Summary:	The Open Dynamics Engine
 Name:		ode
-Version:	0.11
+Version:	0.11.1
 Release:	%mkrel 1
 Epoch:		1
 License:	LGPLv2+
