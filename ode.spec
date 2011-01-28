@@ -11,8 +11,6 @@ License:	LGPLv2+
 Group:		System/Libraries
 URL:		http://www.ode.org
 Source0:	http://downloads.sourceforge.net/opende/%{name}-%{version}.tar.bz2
-BuildRequires:	X11-devel
-BuildRequires:	libmesaglu-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
