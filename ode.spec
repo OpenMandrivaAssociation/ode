@@ -5,7 +5,7 @@
 Summary:	The Open Dynamics Engine
 Name:		ode
 Version:	0.11.1
-Release:	3
+Release:	4
 Epoch:		1
 License:	LGPLv2+
 Group:		System/Libraries
