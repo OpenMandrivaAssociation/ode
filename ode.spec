@@ -9,7 +9,7 @@ Release:	1
 Epoch:		1
 License:	LGPLv2+
 Group:		System/Libraries
-URL:		http://www.ode.org
+URL:		https://www.ode.org
 Source0:	http://downloads.sourceforge.net/opende/%{name}-%{version}.tar.bz2
 
 %description
