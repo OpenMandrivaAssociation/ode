@@ -12,6 +12,11 @@ Group:		System/Libraries
 URL:		https://www.ode.org
 Source0:	http://downloads.sourceforge.net/opende/%{name}-%{version}.tar.bz2
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 %description
 The Open Dynamics Engine (ODE) is a free software library for the
 simulation of Rigid Body Dynamics. It is has been primarily written
